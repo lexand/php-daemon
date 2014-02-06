@@ -8,13 +8,18 @@ class Daemon {
 	private $fh;
 	private $childPid;
 	private static $instance;
+    private $name;
 
-	public static function run() {
-		if (self::$instance) {
+    /**
+     * @param string $name Daemon name
+     */
+    public static function run($name)
+    {
+        if (self::$instance) {
 			self::crash("Singletons only, please");
 		}
-		self::$instance = new self;
-	}
+        self::$instance = new self($name);
+    }
 
 	private static function crash($msg) {
 		// Encapsulate in case we want to throw instead
@@ -35,10 +40,12 @@ class Daemon {
 		// echo $msg,"\n";
 	}
 
-	private function __construct() {
-		// parse options
-		$this->pidfile = 'pid';
-		if ($_SERVER['argc'] < 2) {
+    private function __construct($name)
+    {
+        // parse options
+        $this->name = $name;
+        $this->pidfile = $name . '.pid';
+        if ($_SERVER['argc'] < 2) {
 			self::showHelp();
 		}
 		switch (strtolower($_SERVER['argv'][1])) {
@@ -100,9 +107,9 @@ class Daemon {
 		fclose(STDOUT);
 		fclose(STDERR);
 		$this->stdin  = fopen('/dev/null', 'r');
-		$this->stdout = fopen('log', 'a+');
-		$this->stderr = fopen('log.err', 'a+');
-		$this->debug("Reopened file descriptors");
+        $this->stdout = fopen($this->name . '.log', 'a+');
+        $this->stderr = fopen($this->name . '.err', 'a+');
+        $this->debug("Reopened file descriptors");
 		$this->debug("Executing original script");
 		pcntl_signal(SIGTERM, function() { exit; });
 	}
