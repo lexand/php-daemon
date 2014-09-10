@@ -65,7 +65,7 @@ class Daemon
     {
         // parse options
         $this->name = $name;
-        $this->pidfile = $this->pidDir . DIRECTORY_SEPARATOR . $name . '.pid';
+        $this->pidfile = $pidDir . DIRECTORY_SEPARATOR . $name . '.pid';
         if ($_SERVER['argc'] < 2)
         {
             self::showHelp();
