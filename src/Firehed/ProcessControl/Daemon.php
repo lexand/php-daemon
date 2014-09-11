@@ -66,6 +66,7 @@ class Daemon
         // parse options
         $this->name = $name;
         $this->pidfile = $pidDir . DIRECTORY_SEPARATOR . $name . '.pid';
+        $this->logDir = $logDir;
         if ($_SERVER['argc'] < 2)
         {
             self::showHelp();
@@ -84,7 +85,6 @@ class Daemon
                 self::showHelp();
                 break;
         }
-        $this->logDir = $logDir;
     }
 
     private function start()
