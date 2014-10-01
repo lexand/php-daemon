@@ -74,11 +74,17 @@ class Daemon
         switch (strtolower($_SERVER['argv'][1]))
         {
             case 'start':
+            /** @see \Firehed\ProcessControl\Daemon::start */
             case 'stop':
+            /** @see \Firehed\ProcessControl\Daemon::stop */
             case 'restart':
+            /** @see \Firehed\ProcessControl\Daemon::restart */
             case 'reload':
+            /** @see \Firehed\ProcessControl\Daemon::reload */
             case 'status':
+            /** @see \Firehed\ProcessControl\Daemon::status */
             case 'kill':
+            /** @see \Firehed\ProcessControl\Daemon::kill */
                 call_user_func(array($this, $_SERVER['argv'][1]));
                 break;
             default:
