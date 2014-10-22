@@ -146,7 +146,7 @@ class Daemon
         $this->debug("Reopened file descriptors");
         $this->debug("Executing original script");
         pcntl_signal(SIGTERM,
-            function ()
+            function ($signo)
             {
                 exit;
             });
@@ -204,8 +204,8 @@ class Daemon
     private function reload()
     {
         $pid = $this->getChildPid();
-        self::show("Sending SIGUSR1");
-        if ($pid && posix_kill($pid, SIGUSR1))
+        self::show("Sending SIGHUP");
+        if ($pid && posix_kill($pid, SIGHUP))
         {
             self::ok();
         }
